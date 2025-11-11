@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ace="http://www.icefaces.org/icefaces/components">
+
+<h:head>
+    <title>WEB3</title>
+    <link rel="icon" href="images/favicon.png" type="image/png"/>
+    <h:outputStylesheet name="css/styles.css"/>
+</h:head>
+<h:body>
+    <div>
+        <h:outputText id="currentTime" value="Текущее время: #{timeBean.currentTime}" />
+        <ace:poll interval="11000" render="currentTime" />
+    </div>
+    <h:form id="hiddenForm" prependId="false">
+        <h:inputHidden id="clickX" value="#{resultsManager.x}" />
+        <h:inputHidden id="clickY" value="#{resultsManager.y}" />
+        <h:inputHidden id="clickR" value="#{resultsManager.r}" />
+        <h:commandButton id="submitClick"
+                         action="#{resultsManager.submitHit}"
+                         style="display:none">
+            <f:ajax execute="@form"
+                    render=":resultTable :message"
+                    onevent="handleAjaxEvent" />
+        </h:commandButton>
+    </h:form>
+    <table id="main">
+        <caption><h1>Лабораторная работа №3 по веб-программированию</h1></caption>
+        <colgroup>
+            <col id="col1"/>
+            <col id="col2"/>
+            <col id="col3"/>
+        </colgroup>
+        <thead>
+        <tr>
+            <th colspan="3">
+                <header>Выполнил: Бондаренко Андрей Владимирович P3215 Вариант: 26704</header>
+                <button id="themeTag">🌙</button>
+            </th>
+        </tr>
+        </thead>
+        <tr>
+            <td id="inputcell">
+                <h:form id="controlForm" prependId="false">
+                    <div class="form-group">
+                        <h:outputLabel for="xSlider" value="X:" />
+                        <ace:sliderEntry id="xSlider"
+                                         value="#{resultsManager.x}"
+                                         min="-2"
+                                         max="2"
+                                         step="1"
+                                         animate="true">
+                        </ace:sliderEntry>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel for="yInput" value="Y: " />
+                        <ace:inputText id="yInput" value="#{resultsManager.y}" size="7" />
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel value="R:" />
+                        <ace:selectOneRadio id="rRadio" value="#{resultsManager.r}">
+                            <f:selectItem itemValue="1" itemLabel="1" />
+                            <f:selectItem itemValue="2" itemLabel="2" />
+                            <f:selectItem itemValue="3" itemLabel="3" />
+                            <f:selectItem itemValue="4" itemLabel="4" />
+                            <f:selectItem itemValue="5" itemLabel="5" />
+                        </ace:selectOneRadio>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton value="Отправить"
+                                         action="#{resultsManager.submitHit}">
+                            <f:ajax execute="@form" render=":resultTable :message" />
+                        </h:commandButton>
+                    </div>
+
+                    <!-- Опционально: показ ошибки валидации -->
+                    <h:panelGroup id="message">
+                        <h:outputText value="#{resultsManager.message}"
+                                      rendered="#{not empty resultsManager.message}" />
+                    </h:panelGroup>
+                </h:form>
+            </td>
+            <td id="areacell">
+                <div id="canvasWrapper">
+                    <canvas id="canvas" width="333" height="333"></canvas>
+                </div>
+            </td>
+            <td>
+                <ace:dataTable id="resultTable"
+                               value="#{resultsManager.results}"
+                               var="result">
+                    <ace:column headerText="X">
+                        <h:outputText value="#{result.x}" />
+                    </ace:column>
+                    <ace:column headerText="Y">
+                        <h:outputText value="#{result.y}" />
+                    </ace:column>
+                    <ace:column headerText="R">
+                        <h:outputText value="#{result.r}" />
+                    </ace:column>
+                    <ace:column headerText="Результат">
+                        <h:outputText value="#{result.hit ? 'попал' : 'не попал'}"
+                                      styleClass="#{result.hit ? 'hit' : 'miss'}" />
+                    </ace:column>
+                    <ace:column headerText="текущее время">
+                        <h:outputText value="#{result.timestamp}">
+                            <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+                        </h:outputText>
+                    </ace:column>
+                    <ace:column headerText="Время работы в мс.">
+                        <h:outputText value="#{result.executionTime}" />
+                    </ace:column>
+                </ace:dataTable>
+            </td>
+        </tr>
+        <tfoot>
+        <tr>
+            <h:link outcome="main" value="Назад" />
+        </tr>
+        </tfoot>
+    </table>
+
+    <h:outputScript name="js/main.js"/>
+</h:body>
+</html>

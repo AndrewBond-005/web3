@@ -1,0 +1,197 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #dee2e6;
+    --hover-button:#fff1c1;
+    --pressed-button:#ffeaa4;
+}
+
+[data-theme="dark"] {
+    --bg-color: #262424;
+    --text-color: #ffffff;
+    --border-color: #b8b8b8;
+    --hover-button:#8e6f00;
+    --pressed-button:#7c5f00;
+}
+[data-theme="dark"] #x:-webkit-autofill {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px #2d2d2d inset;
+    border: 2px solid var(--border-color);
+}
+html {
+
+    background-color: var(--bg-color);
+    background-image: url("../images/background.png");
+    background-size: 70px 70px;
+}
+#hiddenForm{
+    display: none;
+}
+header {
+    font-family: serif;
+    font-size: 25px;
+    color: var(--text-color);
+}
+
+#main {
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+}
+
+#inputcell {
+    position: relative;
+}
+
+#inputForm {
+    top: 120px;
+    padding: 10px;
+}
+
+/* каскадность */
+#inputcell>form {
+    position: absolute;
+    margin-top: -100px;
+}
+
+button,
+input,
+select>option,
+select {
+    /*атрибутов*/
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+}
+
+button[type="button"]:hover,
+caption,
+tfoot th {
+    /*атрибутов*/
+    color: var(--text-color);
+    border-radius: 10px;
+}
+
+label {
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] #y:-webkit-autofill {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px #2d2d2d inset;
+}
+
+#errorMessage {
+    font-size: 18px;
+    color: red;
+    display: none;
+    position: sticky;
+    top: 140px;
+    padding: 10px;
+}
+/*
+#errorCell {
+    border: 4px solid rgb(194, 0, 0);
+    display: none;
+    background-color: var(--bg-color);
+}
+*/
+#areacell {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; 
+    vertical-align: middle;
+}
+
+th[colspan="3"] {
+    position: relative;
+    text-align: center;
+    padding: 10px;
+}
+
+#themeTag {
+    position: absolute;
+    right: 10px;
+    height: 35px;
+    font-size: 20px;
+}
+
+th[colspan="3"] header {
+    display: inline-block;
+    text-align: center;
+}
+
+#resultTable :where(td, th, thead) {
+    padding: 1px 1px;
+    border: 2px solid var(--text-color);
+}
+#resultTable {
+    /*идентификаторов*/
+    font-size: 16px;
+    width: 100%;
+    border-collapse: collapse;
+    max-height: 75vh;
+    overflow-y: auto;
+    display: block;
+}
+
+#resultTable>thead {
+    /*дочерних*/
+    background-color: #d2b18c;
+}
+
+#resultTable td {
+    /*потомств*/
+    padding: 4px 4px;
+    text-align: center;
+    background-color: #f9e0be;
+}
+
+#resultTable .yes {
+    background-color: #d4edda ;
+    color: #155724 ;
+}
+
+#resultTable .no {
+    background-color: #f8d7da ;
+    color: #721c24;
+}
+
+.r-button.pressed {
+    border: 2px solid #000000;
+    background-color: var(--pressed-button);
+}
+.r-button:hover:not(.pressed) {
+    background-color:var( --hover-button);
+}
+#x {
+    width: 40%;
+}
+
+#col1 {
+    width: 20%;
+}
+
+#col2 {
+    width: 30%;
+}
+
+#col3 {
+    width: 50%;
+}
+.back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
