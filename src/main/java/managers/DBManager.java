@@ -1,8 +1,8 @@
 package managers;
 
 import beans.Result;
-import jakarta.faces.bean.ApplicationScoped;
-import jakarta.faces.bean.ManagedBean;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -91,6 +91,20 @@ public class DBManager {
             }
             conn.commit();
         } catch (SQLException | IOException ignored) {
+        }
+    }
+    public void clearResults() throws SQLException {
+        String sql = "DELETE FROM hits";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            conn.setAutoCommit(false);
+            try {
+                ps.executeUpdate();
+                conn.commit();
+            } catch (Exception e) {
+                conn.rollback();
+                throw e;
+            }
         }
     }
     public static Connection getConnection() throws SQLException{

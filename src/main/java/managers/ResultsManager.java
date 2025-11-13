@@ -3,24 +3,22 @@ package managers;
 import beans.Result;
 import util.Checker;
 import util.Validator;
-import jakarta.annotation.PostConstruct;
-import jakarta.faces.bean.ApplicationScoped;
-import jakarta.faces.bean.ManagedBean;
+
+import javax.annotation.PostConstruct;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-@ManagedBean(name = "resultsManager")
-@ApplicationScoped
+
 public class ResultsManager {
     private Double x;
     private String y;
     private Integer r;
     private final List<Result> results = Collections.synchronizedList(new LinkedList<>());
     private final DBManager dbManager = new DBManager();
-    private String message="";
+    private String message = "";
 
     @PostConstruct
     public void init() {
@@ -30,6 +28,7 @@ public class ResultsManager {
         } catch (Exception ignored) {
         }
     }
+
     public void submitHit() {
         Result result;
         try {
@@ -55,12 +54,44 @@ public class ResultsManager {
             message = "Ошибка сохранения: " + e.getMessage();
         }
     }
-    public Double getX() { return x; }
-    public void setX(Double x) { this.x = x; }
-    public String getY() { return y; }
-    public void setY(String yStr) { this.y = yStr; }
-    public Integer getR() { return r; }
-    public void setR(Integer r) { this.r = r; }
-    public String getMessage() { return message; }
-    public List<Result> getResults() { return results; }
+    public void clearResults() {
+        try {
+            dbManager.clearResults();
+            this.results.clear();
+            this.message = "";
+        } catch ( SQLException e) {
+            this.message = "Ошибка при очистке результатов: " + e.getMessage();
+        }
+    }
+    public Double getX() {
+        return x;
+    }
+
+    public void setX(Double x) {
+        this.x = x;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public void setY(String yStr) {
+        this.y = yStr;
+    }
+
+    public Integer getR() {
+        return r;
+    }
+
+    public void setR(Integer r) {
+        this.r = r;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public List<Result> getResults() {
+        return results;
+    }
 }
