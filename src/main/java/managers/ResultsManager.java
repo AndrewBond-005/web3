@@ -30,6 +30,9 @@ public class ResultsManager {
     public void init() {
         LOG.info("ResultsManager initialization");
         try {
+            this.x=0.0;
+            this.y="-5";
+            this.r=3;
             //DBManager.createTable();
             //List<Result> dbResults = dbManager.getAllResults();
             //results.addAll(dbResults);

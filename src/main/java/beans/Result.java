@@ -1,10 +1,11 @@
 package beans;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
 
-public class Result {
+public class Result implements Serializable {
     private static final Logger LOG = Logger.getLogger(Result.class.getName());
 
     private double x;

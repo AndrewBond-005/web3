@@ -8,27 +8,27 @@
 
 <h:head>
     <title>WEB3</title>
-    <link rel="icon" type="image/png" href="#{request.contextPath}\favicon.png" />
+    <link rel="icon" type="image/png" href="#{request.contextPath}/favicon.png" />
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <h:body>
     <!--
     <div>
-        <h:outputText id="currentTime" value="Текущее время: #{timeBean.currentTime}" prependId="false"/>
+        <h:outputText id="currentTime" value="Текущее время: #{timeBean.currentTime}"/>
         <ace:poll interval="11000" render="currentTime" />
     </div>
 -->
-    <h:form id="hiddenForm" prependId="false">
+    <h:form id="hiddenForm">
         <h:inputHidden id="clickX" value="#{resultsManager.x}" />
         <h:inputHidden id="clickY" value="#{resultsManager.y}" />
         <h:inputHidden id="clickR" value="#{resultsManager.r}" />
         <h:outputText id="pointData"
-        value='{"x":#{resultsManager.x}, "y":#{resultsManager.y}, "r":#{resultsManager.r},"hit":#{resultsManager.hit}}'/>
+                      value='{"x":#{resultsManager.x}, "y":#{resultsManager.y}, "r":#{resultsManager.r},"hit":#{resultsManager.hit}}'/>
 
         <h:commandButton id="submitClick"
                          action="#{resultsManager.submitHit}"
                          style="display:none">
-            <f:ajax execute="@form" render=":resultTable :message :pointData"/>
+            <f:ajax execute="@form" render=":resultsForm:resultTable :controlForm:errorMessage :hiddenForm:pointData"/>
         </h:commandButton>
     </h:form>
 
@@ -50,48 +50,60 @@
 
         <tr>
             <td id="inputcell">
-                <h:form id="controlForm" prependId="false">
-                <h:inputHidden binding="#{viewScope.hidden}" />
-                <div class="form-group">
+                <h:form id="controlForm">
+                    <div class="form-group">
                         <h:outputLabel for="xSlider" value="X:" />
                         <ace:sliderEntry id="xSlider"
                                          value="#{resultsManager.x}"
-                                         min="-2" max="2" step="1"
-                                         animate="true" />
+                                         min="-2"
+                                         max="2"
+                                         step="1"
+                                         animate="false"
+                                         showValue="true"
+                                         length="100px"
+                                         showLabels="true"
+                                         valuePosition="left"
+                                         displayValue="true"
+                                         displayValueTemplate="{value}"
+                                         style="width: 200px;"
+                                         class="input">
+                            <ace:ajax event="slideEnd" render="xValue @form" />
+                        </ace:sliderEntry>
+                        <h:outputText class="input" id="xValue" value="#{resultsManager.x}"/>
                     </div>
 
-                <div class="form-group">
-                    <h:outputLabel for="yInput" value="Y:" />
-                    <h:inputText id="yInput"
-                                 value="#{resultsManager.y}"
-                                 size="7"
-                                 validatorMessage="Y должен быть числом от -5 до 3">
-                        <f:validateDoubleRange minimum="-5.0" maximum="3.0" />
-                    </h:inputText>
-                </div>
+                    <div class="form-group">
+                        <h:outputLabel for="yInput" value="Y:" />
+                        <h:inputText id="yInput"
+                                     value="#{resultsManager.y}"
+                                     size="7"
+                                     validatorMessage="Y должен быть числом от -5 до 3">
+                            <f:validateDoubleRange minimum="-5.0" maximum="3.0" />
+                        </h:inputText>
+                    </div>
 
-                <div class="form-group">
-                    <h:outputLabel value="R:" />
-                    <h:selectOneRadio id="rRadio" value="#{resultsManager.r}">
-                        <f:selectItem itemValue="1" itemLabel="1" />
-                        <f:selectItem itemValue="2" itemLabel="2" />
-                        <f:selectItem itemValue="3" itemLabel="3" />
-                        <f:selectItem itemValue="4" itemLabel="4" />
-                        <f:selectItem itemValue="5" itemLabel="5" />
-                    </h:selectOneRadio>
-                </div>
+                    <div class="form-group">
+                        <h:outputLabel value="R:" />
+                        <h:selectOneRadio id="rRadio" value="#{resultsManager.r}">
+                            <f:selectItem itemValue="1" itemLabel="1" />
+                            <f:selectItem itemValue="2" itemLabel="2" />
+                            <f:selectItem itemValue="3" itemLabel="3" />
+                            <f:selectItem itemValue="4" itemLabel="4" />
+                            <f:selectItem itemValue="5" itemLabel="5" />
+                        </h:selectOneRadio>
+                    </div>
 
                     <div class="form-group">
                         <h:commandButton id="submitButton" value="Отправить"
                                          action="#{resultsManager.checkHitWithValidation}">
-                            <f:ajax execute="@form" render=" :resultTable :errormessage" />
+                            <f:ajax execute="@form" render=":resultsForm:resultTable :controlForm:errorMessage" />
                         </h:commandButton>
                     </div>
 
                     <div class="form-group">
                         <h:commandButton id="clearButton" value="Очистить"
                                          action="#{resultsManager.clearResults}">
-                            <f:ajax render=":resultTable :errormessage :pointData" onevent="handleAjax" />
+                            <f:ajax render=":resultsForm:resultTable :controlForm:errorMessage :hiddenForm:pointData" />
                         </h:commandButton>
                     </div>
 
@@ -110,7 +122,7 @@
             </td>
 
             <td>
-                <h:form id="resultsForm" prependId="false">
+                <h:form id="resultsForm">
                     <ace:dataTable id="resultTable"
                                    value="#{resultsManager.results}"
                                    var="result">
