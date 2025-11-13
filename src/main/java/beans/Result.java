@@ -22,36 +22,47 @@ public class Result {
     public double getX() {
         return x;
     }
+
     public void setX(double x) {
         this.x = x;
     }
+
     public double getY() {
         return y;
     }
+
     public void setY(double y) {
         this.y = y;
     }
+
     public int getR() {
         return r;
     }
+
     public void setR(int r) {
         this.r = r;
     }
+
     public boolean isHit() {
         return hit;
     }
+
     public void setHit(boolean hit) {
         this.hit = hit;
     }
+
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
+
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+
     public long getExecutionTime() {
         return executionTime;
     }
+
     public void setExecutionTime(long executionTime) {
         this.executionTime = executionTime;
     }

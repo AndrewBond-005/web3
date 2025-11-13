@@ -1,8 +1,6 @@
 package managers;
 
 import beans.Result;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +9,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+
 /*
 @ManagedBean(name = "dbManager")
 @ApplicationScoped*/
@@ -24,9 +22,10 @@ public class DBManager {
         try {
             Class.forName("org.postgresql.Driver");
             createTable();
-        } catch (SQLException | ClassNotFoundException ignored){
+        } catch (SQLException | ClassNotFoundException ignored) {
         }
     }
+
     public void saveResult(double x, double y, int r, boolean hit, LocalDateTime timestamp, long executionTime)
             throws SQLException {
         String sql = "INSERT INTO hits (x, y, r, hit, timestamp, execution_time) VALUES (?, ?, ?, ?, ?, ?)";
@@ -49,6 +48,7 @@ public class DBManager {
             }
         }
     }
+
     public List<Result> getAllResults() throws SQLException {
         String sql = "SELECT x, y, r, hit, timestamp, execution_time " +
                 "FROM hits " +
@@ -69,6 +69,7 @@ public class DBManager {
         }
         return results;
     }
+
     public static void createTable() throws SQLException {
         var scriptFileName = "create.sql";
         try {
@@ -93,6 +94,7 @@ public class DBManager {
         } catch (SQLException | IOException ignored) {
         }
     }
+
     public void clearResults() throws SQLException {
         String sql = "DELETE FROM hits";
         try (Connection conn = getConnection();
@@ -107,7 +109,8 @@ public class DBManager {
             }
         }
     }
-    public static Connection getConnection() throws SQLException{
+
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 }

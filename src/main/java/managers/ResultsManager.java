@@ -54,15 +54,17 @@ public class ResultsManager {
             message = "Ошибка сохранения: " + e.getMessage();
         }
     }
+
     public void clearResults() {
         try {
             dbManager.clearResults();
             this.results.clear();
             this.message = "";
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             this.message = "Ошибка при очистке результатов: " + e.getMessage();
         }
     }
+
     public Double getX() {
         return x;
     }
