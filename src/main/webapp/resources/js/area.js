@@ -163,7 +163,7 @@ export function drawPoint(x, y, r, hit) {
 
     ctx.beginPath();
     ctx.arc(x0 + x * r0 * r / (R*R) , y0 - y * r0 * r / (R*R), 4, 0, pi * 2);
-    ctx.fillStyle = (hit == "true" ? colors.isHit : colors.noHit);
+    ctx.fillStyle = (hit === "true" ? colors.isHit : colors.noHit);
     ctx.fill();
     ctx.lineWidth = 1;
     ctx.stroke();

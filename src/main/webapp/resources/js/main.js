@@ -1,4 +1,4 @@
-import {addResults, clearTable} from './table.js';
+import {clearTable} from './table.js';
 import {
     addPoint,
     clearArea,
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 R = Rnew;
                 redrawArea(R);
                 const xVal = xSlider ? xSlider.value : "";
-                if (xVal.trim() === "") {
+                if (!xVal || xVal.trim() === "") {
                     showError("Выберите X");
                 } else {
                     validateX(xVal) ? hideError() : null;
@@ -50,10 +50,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
 function updateSubmitButton(ok) {
     submitButton.disabled = !ok;
     submitButton.style.opacity = ok ? '1' : '0.5';
 }
+
 document.addEventListener("DOMContentLoaded", () => {
     const table = document.getElementById('resultTable');
     const tableBody = table.getElementsByTagName('tbody');
@@ -122,19 +124,24 @@ clearButton.addEventListener('click', function (event) {
     drawArea();
     drawLabel(R === null ? "R" : R);
 });
-function handleAjax(data) {
-    try {
-        if (data.status === "success") {
-            var firstRow = table.rows[0];
-            drawPoint(firstRow.cells[0].textContent,
-                firstRow.cells[1].textContent,
-                firstRow.cells[2].textContent,
-                firstRow.cells[3].textContent)
+jsf.ajax.addOnEvent(function (data) {
+    if (data.status === "complete") {
+        try {
+            setTimeout(() => {
+            const jsonField = document.getElementById('pointData');
+            if (jsonField != null && jsonField.textContent != null) {
+                const point = JSON.parse(jsonField.textContent);
+                if (point) {
+                    addPoint(point.x, point.y, point.r, point.hit.toString());
+                    drawPoint(point.x, point.y, point.r,  point.hit.toString());
+                }
+            }
+            }, 200);
+        } catch (e) {
+            Error(e.message);
         }
-    } catch (e) {
-        Error(e.message);
     }
-}
+});
 
 
 function Error(message) {
@@ -143,10 +150,12 @@ function Error(message) {
         hideError()
     }, 3000);
 }
+
 function showError(message) {
     errorTag.textContent = "Ошибка: " + message;
     errorTag.style.display = "inline";
 }
+
 function hideError() {
     errorTag.textContent = "";
     errorTag.style.display = "none";
@@ -171,7 +180,10 @@ themeTag.addEventListener('click', function () {
     setTheme(newTheme);
     redrawArea(R == null ? "R" : R);
 });
+
 function updateButtonText(theme) {
     themeTag.innerHTML = theme === 'dark' ? '☀️' : '🌙';
 }
+
+
 

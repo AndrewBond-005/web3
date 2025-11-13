@@ -2,31 +2,45 @@ package util;
 
 import beans.Result;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Validator {
-    // private static final List<Double> ACCEPTABLE_Y = Arrays.asList(-5d, -4d, -3d, -2d, -1d, 0d, 1d, 2d, 3d);
+    private static final Logger LOG = Logger.getLogger(Validator.class.getName());
+
     private static final List<Integer> ACCEPTABLE_R = Arrays.asList(1, 2, 3, 4, 5);
     private static final int MIN_X = -2;
     private static final int MAX_X = 2;
 
-    public static Result validate(String x, String y, String r) {
+    public static boolean validate(Result result) {
+        if(result == null) {
+            throw new RuntimeException("Empty parameters not allowed!");
+
+        }
+
         try {
-            if (x == null || y == null || r == null) {
-                throw new RuntimeException("Пустые параметры недопустимы!");
+            LOG.info(String.format("Validating parameters: x=%s, y=%s, r=%s", result.getX(), result.getY(), result.getR()));
+            var x=(int)result.getX();
+            var y=result.getY();
+            var r=result.getR();
+            LOG.fine(String.format("Parsing success: x=%d, y=%.2f, r=%d", x, y, r));
+
+            if (x <= MIN_X || x >= MAX_X) {
+                throw new RuntimeException("X must be from -2 to 2");
             }
-            var x1 = (int) Double.parseDouble(x.replace(",", "."));
-            var y1 = Double.parseDouble(y.replace(",", "."));
-            var r1 = Integer.parseInt(r.replace(",", "."));
-            // if (!ACCEPTABLE_Y.contains(y1)) return false;
-            var res = new Result(x1, y1, r1, false, null, -1);
-            if (x1 < MIN_X || x1 > MAX_X) throw new RuntimeException("X должен быть от -2 до 2");
-            if (!ACCEPTABLE_R.contains(r1)) throw new RuntimeException("Возможные R: 1, 2, 3, 4, 5");
-            return res;
+            if (!ACCEPTABLE_R.contains(r)) {
+                throw new RuntimeException("Possible R values: 1, 2, 3, 4, 5");
+            }
+            LOG.info("Validation passed");
+            return true;
+
         } catch (NumberFormatException e) {
-            throw new RuntimeException("Не удалось распознать число");
+            LOG.warning("Number parsing error: " + e.getMessage());
+            throw new RuntimeException("Cannot parse number");
         } catch (RuntimeException e) {
+            LOG.warning("Validation error: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }

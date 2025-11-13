@@ -22,10 +22,13 @@
         <h:inputHidden id="clickX" value="#{resultsManager.x}" />
         <h:inputHidden id="clickY" value="#{resultsManager.y}" />
         <h:inputHidden id="clickR" value="#{resultsManager.r}" />
+        <h:outputText id="pointData"
+        value='{"x":#{resultsManager.x}, "y":#{resultsManager.y}, "r":#{resultsManager.r},"hit":#{resultsManager.hit}}'/>
+
         <h:commandButton id="submitClick"
                          action="#{resultsManager.submitHit}"
                          style="display:none">
-            <f:ajax execute="@form" render=":resultTable :message" onevent="handleAjax" />
+            <f:ajax execute="@form" render=":resultTable :message :pointData"/>
         </h:commandButton>
     </h:form>
 
@@ -39,7 +42,7 @@
         <thead>
         <tr>
             <th colspan="3">
-                <header>Выполнил: Бондаренко Андрей Владимирович P3215 Вариант: 26704</header>
+                <header>Выполнил: Бондаренко Андрей Владимирович P3215 Вариант: 26705</header>
                 <button id="themeTag">🌙</button>
             </th>
         </tr>
@@ -47,8 +50,9 @@
 
         <tr>
             <td id="inputcell">
-ъ                <h:form id="controlForm" prependId="false">
-                    <div class="form-group">
+                <h:form id="controlForm" prependId="false">
+                <h:inputHidden binding="#{viewScope.hidden}" />
+                <div class="form-group">
                         <h:outputLabel for="xSlider" value="X:" />
                         <ace:sliderEntry id="xSlider"
                                          value="#{resultsManager.x}"
@@ -62,7 +66,6 @@
                                  value="#{resultsManager.y}"
                                  size="7"
                                  validatorMessage="Y должен быть числом от -5 до 3">
-                        <f:validateRegex pattern="^-?([0-4](\.\d+)?|5(\.0+)?)$" />
                         <f:validateDoubleRange minimum="-5.0" maximum="3.0" />
                     </h:inputText>
                 </div>
@@ -80,15 +83,15 @@
 
                     <div class="form-group">
                         <h:commandButton id="submitButton" value="Отправить"
-                                         action="#{resultsManager.submitHit}">
-                            <f:ajax execute="@form" render=":resultTable :message" />
+                                         action="#{resultsManager.checkHitWithValidation}">
+                            <f:ajax execute="@form" render=" :resultTable :errormessage" />
                         </h:commandButton>
                     </div>
 
                     <div class="form-group">
                         <h:commandButton id="clearButton" value="Очистить"
                                          action="#{resultsManager.clearResults}">
-                            <f:ajax render=":resultTable :message" />
+                            <f:ajax render=":resultTable :errormessage :pointData" onevent="handleAjax" />
                         </h:commandButton>
                     </div>
 
@@ -140,7 +143,7 @@
         <tfoot>
         <tr>
             <td colspan="3" style="text-align: center;">
-                <h:link outcome="main" value="На главную" />
+                <h:button value="На главную" outcome="main" />
             </td>
         </tr>
         </tfoot>
