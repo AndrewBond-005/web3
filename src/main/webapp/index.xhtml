@@ -12,12 +12,6 @@
     <h:outputStylesheet library="css" name="styles.css"/>
 </h:head>
 <h:body>
-    <!--
-    <div>
-        <h:outputText id="currentTime" value="Текущее время: #{timeBean.currentTime}"/>
-        <ace:poll interval="11000" render="currentTime" />
-    </div>
--->
     <h:form id="hiddenForm">
         <h:inputHidden id="clickX" value="#{resultsManager.x}" />
         <h:inputHidden id="clickY" value="#{resultsManager.y}" />
@@ -58,7 +52,7 @@
                                          min="-2"
                                          max="2"
                                          step="1"
-                                         animate="false"
+                                         animate="true"
                                          showValue="true"
                                          length="100px"
                                          showLabels="true"
@@ -96,7 +90,7 @@
                     <div class="form-group">
                         <h:commandButton id="submitButton" value="Отправить"
                                          action="#{resultsManager.checkHitWithValidation}">
-                            <f:ajax execute="@form" render=":resultsForm:resultTable :controlForm:errorMessage" />
+                            <f:ajax execute="@form" render=":resultsForm:resultTable :controlForm:errorMessage :hiddenForm:pointData" />
                         </h:commandButton>
                     </div>
 
@@ -125,7 +119,8 @@
                 <h:form id="resultsForm">
                     <ace:dataTable id="resultTable"
                                    value="#{resultsManager.results}"
-                                   var="result">
+                                   var="result"
+                                   styleClass="table">
                         <ace:column headerText="X">
                             <h:outputText value="#{result.x}" />
                         </ace:column>

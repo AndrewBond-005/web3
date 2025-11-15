@@ -103,7 +103,7 @@ label {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center; 
+    text-align: center;
     vertical-align: middle;
 }
 
@@ -194,4 +194,22 @@ th[colspan="3"] header {
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
+}
+
+.table {
+    background-color: #fcd9ad;
+    border: 2px solid #deb887;
+}
+
+.table th {
+    background-color: #fcd9ad;
+    color: #333;
+    padding: 10px;
+    text-align: center;
+}
+
+.table td {
+    background-color: #fcd9ad;
+    padding: 8px;
+    border-bottom: 1px solid #fcd9ad;
 }

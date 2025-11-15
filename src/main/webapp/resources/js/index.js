@@ -18,3 +18,18 @@ themeTag.addEventListener('click', function () {
 function updateButtonText(theme) {
     themeTag.innerHTML = theme === 'dark' ? '☀️' : '🌙';
 }
+document.addEventListener('DOMContentLoaded', startTimer);
+function startTimer() {
+    function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('ru-RU');
+        const dateString = now.toLocaleDateString('ru-RU');
+        const timerElement = document.getElementById('timer');
+        if (timerElement) {
+            timerElement.textContent = `${dateString} ${timeString}`;
+        }
+    }
+    updateTime();
+    setInterval(updateTime, 11*1000);
+}
+

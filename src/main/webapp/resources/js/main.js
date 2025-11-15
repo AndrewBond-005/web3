@@ -38,14 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (Rnew !== R) {
                 R = Rnew;
                 redrawArea(R);
-                const sliderInput = xSlider;
-                const xVal = sliderInput ? sliderInput.value : "";
-                if (!xVal || xVal.trim() === "") {
-                    showError("Выберите X");
-                } else {
-                    validateX(xVal) ? hideError() : null;
-                    updateSubmitButton(validateX(xVal));
-                }
             }
         });
     });
@@ -162,7 +154,7 @@ function showTempError(message) {
     }, 3000);
 }
 function showError(message) {
-    errorTag.textContent = "Ошибка: " + message;
+    errorTag.textContent = "Ошибка:" + message;
     errorTag.style.display = "inline";
 }
 function hideError() {

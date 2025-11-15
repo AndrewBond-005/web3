@@ -1,4 +1,3 @@
-const ACCEPTABLE_Y = [-5, -4, -3, -2, -1, 0, 1, 2, 3];
 const ACCEPTABLE_R = [1, 2, 3, 4, 5];
 export function parseNumber(str) {
     const normalizedStr = str.toString().replace(',', '.');
@@ -28,7 +27,7 @@ export function validateX(x){
 export function validateY(y){
     y = Number(parseNumber(y));
     if (isNaN(y)) throw new Error('Поле Y должно быть числом!');
-    if (!ACCEPTABLE_Y.includes(y)) throw new Error('Недопустимое значение Y!');
+    if (y < -5 || y > 3) throw new Error('Недопустимое значение Y!');
     return true;
 }
 export function validateR(r){

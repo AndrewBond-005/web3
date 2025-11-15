@@ -2,46 +2,42 @@ package util;
 
 import beans.Result;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class Validator {
-    private static final Logger LOG = Logger.getLogger(Validator.class.getName());
-
     private static final List<Integer> ACCEPTABLE_R = Arrays.asList(1, 2, 3, 4, 5);
-    private static final int MIN_X = -2;
-    private static final int MAX_X = 2;
+    private static final double MIN_X = -2.0;
+    private static final double MAX_X = 2.0;
+    private static final double MIN_Y = -5.0;
+    private static final double MAX_Y = 3.0;
 
     public static boolean validate(Result result) {
-        if(result == null) {
-            throw new RuntimeException("Empty parameters not allowed!");
-
+        if (result == null) {
+            throw new RuntimeException("Пустые параметры недопустимы");
         }
-
         try {
-            LOG.info(String.format("Validating parameters: x=%s, y=%s, r=%s", result.getX(), result.getY(), result.getR()));
-            var x=(int)result.getX();
-            var y=result.getY();
-            var r=result.getR();
-            LOG.fine(String.format("Parsing success: x=%d, y=%.2f, r=%d", x, y, r));
-
-            if (x <= MIN_X || x >= MAX_X) {
-                throw new RuntimeException("X must be from -2 to 2");
+            var x = result.getX();
+            var y = result.getY();
+            var r = result.getR();
+            if (x != Math.floor(x)) {
+                throw new RuntimeException("X должен быть числом");
+            }
+            if (x < MIN_X || x > MAX_X) {
+                throw new RuntimeException("X должен быть от -2 до 2");
+            }
+            if (y < MIN_Y || y > MAX_Y) {
+                throw new RuntimeException("Y должен быть от -5 до 3");
             }
             if (!ACCEPTABLE_R.contains(r)) {
-                throw new RuntimeException("Possible R values: 1, 2, 3, 4, 5");
+                throw new RuntimeException("Возможные значения R: 1, 2, 3, 4, 5");
             }
-            LOG.info("Validation passed");
             return true;
 
         } catch (NumberFormatException e) {
-            LOG.warning("Number parsing error: " + e.getMessage());
-            throw new RuntimeException("Cannot parse number");
+            throw new RuntimeException("Не удалось определить число");
         } catch (RuntimeException e) {
-            LOG.warning("Validation error: " + e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка валидации: " + e.getMessage());
         }
     }
 }

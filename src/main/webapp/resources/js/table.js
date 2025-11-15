@@ -18,7 +18,7 @@ export function addResults(results) {
         cellsData.forEach((text, index) => {
             const cell = newRow.insertCell();
             cell.textContent = text;
-            if (index === 3) { 
+            if (index === 3) {
                 cell.classList.add(result.isHit ? 'yes' : 'no');
             }
         });
