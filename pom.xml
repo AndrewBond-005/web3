@@ -26,12 +26,17 @@
         <dependency>
             <groupId>org.icefaces</groupId>
             <artifactId>icefaces</artifactId>
-            <version>4.2.0</version>
+            <version>3.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.icefaces</groupId>
             <artifactId>icefaces-ace</artifactId>
-            <version>4.2.0</version>
+            <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.icefaces</groupId>
+            <artifactId>icepush</artifactId>
+            <version>3.0.1</version>
         </dependency>
     </dependencies>
     <build>
@@ -43,7 +48,7 @@
                 <version>3.4.0</version>
                 <configuration>
                     <outputDirectory>
-                        C:\Users\Admin\IdeaProjects\wildfly-20.0.1.Final\standalone\deployments                     </outputDirectory>
+                        C:\Users\Admin\IdeaProjects\wildfly-20.0.1.Final\standalone\deployments </outputDirectory>
                 </configuration>
             </plugin>
             <plugin>

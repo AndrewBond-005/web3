@@ -1,0 +1,7 @@
+util\Validator.class
+util\Parser.class
+util\Checker.class
+beans\TimeBean.class
+managers\ResultsManager.class
+managers\DBManager.class
+beans\Result.class

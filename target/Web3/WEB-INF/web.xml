@@ -10,22 +10,15 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <context-param>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Production</param-value>
-    </context-param>
-
-    <!-- Отключить CDI-интеграцию в JSF 2.3+ -->
-    <context-param>
-        <param-name>com.sun.faces.DISABLE_CDI_INTEGRATION</param-name>
-        <param-value>true</param-value>
-    </context-param>
-
-    <!-- Отключить EL 3.0 (CDI-aware), использовать EL 2.2 -->
-    <context-param>
-        <param-name>com.sun.faces.expressionFactory</param-name>
-        <param-value>com.sun.el.ExpressionFactoryImpl</param-value>
-    </context-param>
+    <servlet>
+        <servlet-name>Push Servlet</servlet-name>
+        <servlet-class>org.icepush.servlet.ICEpushServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Push Servlet</servlet-name>
+        <url-pattern>/icepush/*</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FacesServlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
@@ -51,4 +44,5 @@
         <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
         <param-value>false</param-value>
     </context-param>
+
 </web-app>
